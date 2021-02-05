@@ -5,30 +5,105 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
 ```
 
+### index.js
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/i/43lisl7h17b7bzkb0wju.jpg)
+
+```javascript
+// pages/index.js
+
+import Head from 'next/head'
+
+export default function Home() {
+  return (
+    <div>
+      <Head>
+        <title>stepzen-next</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main>
+        <h1>Welcome to Jamstack SF!</h1>
+
+        <p>
+          Get started by editing{' '}
+          <code>pages/index.js</code>
+        </p>
+      </main>
+
+      <footer>
+        <a
+          href="https://stepzen.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by StepZen
+        </a>
+      </footer>
+    </div>
+  )
+}
+```
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### users.js
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/i/4mxxqk0qhw8r5fpiwjlo.jpg)
 
-## Learn More
+```javascript
+export const getStaticProps = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  const data = await res.json();
 
-To learn more about Next.js, take a look at the following resources:
+  return {
+    props: { users: data }
+  }
+}
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+const Users = ({ users }) => {
+  return (
+    <div>
+      <h1>Users</h1>
+      {users.map(user => (
+        <div key={user.id}>
+          <h3>{user.name}</h3>
+        </div>
+      ))}
+    </div>
+  );
+}
+ 
+export default Users;
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### _app.js
 
-## Deploy on Vercel
+```javascript
+// pages/_app.js
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+export default MyApp
+```
+
+### hello.js
+
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`. The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+
+```javascript
+// pages/api/hello.js
+
+export default (req, res) => {
+  res.status(200).json({ name: 'Hello Jamstack SF' })
+}
+```
+
+![Alt Text](https://dev-to-uploads.s3.amazonaws.com/i/8o8tyux37vm12gsr2xsv.jpg)
