@@ -4,7 +4,6 @@ import { GraphQLClient, gql, request } from "graphql-request";
 import { useForm } from "react-hook-form";
 import Orders from "./orders";
 
-// request query
 const JOHN = `
 query customer {
   customerByEmail(email: "john.doe@example.com") {
@@ -17,7 +16,6 @@ query customer {
 }
 `;
 
-// name will be populated at build time by getStaticProps()
 function Home({ customers }) {
   const [showOrders, setShowOrders] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -119,9 +117,6 @@ function Home({ customers }) {
     );
 }
 
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries. See the "Technical details" section.
 export async function getStaticProps() {
   const res = await request(
     "https://anant.stepzen.net/api/meetup/__graphql",
