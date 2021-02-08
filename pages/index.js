@@ -118,7 +118,7 @@ function Home({ customers }) {
               className="mb2"
               // value={initialValues.to}
               ref={register({ required: "Email is required" })}
-              placeholder="john@example.com"
+              placeholder="john.doe@example.com"
             />
             {errors.task && <span role="alert">{errors.task.message}</span>}
           </div>
