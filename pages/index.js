@@ -15,7 +15,7 @@ function Home({ customers }) {
   const { handleSubmit, register, errors } = useForm();
 
   const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
-    const endpoint = "https://anant.stepzen.net/api/meetup/__graphql";
+    const endpoint = "https://anant.stepzen.net/api/meetup2/__graphql";
     const graphQLClient = new GraphQLClient(endpoint, {});
     if (showOrders.delivery) {
       setOrders(orders => !orders);
@@ -33,7 +33,7 @@ function Home({ customers }) {
 
   const weatherSubmit = async () => {
     console.log(temp)
-    const endpoint = "https://anant.stepzen.net/api/meetup/__graphql";
+    const endpoint = "https://anant.stepzen.net/api/meetup2/__graphql";
     const graphQLClient = new GraphQLClient(endpoint, {});
     if (errorMessage) setErrorMessage("");
     try {
@@ -139,7 +139,7 @@ function Home({ customers }) {
 
 export async function getStaticProps() {
   const res = await request(
-    "https://anant.stepzen.net/api/meetup/__graphql",
+    "https://anant.stepzen.net/api/meetup2/__graphql",
     JOHN
   );
   const data = res.customerByEmail;
