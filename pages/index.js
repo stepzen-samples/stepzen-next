@@ -19,44 +19,30 @@ const JOHN = `query customer {
 // posts will be populated at build time by getStaticProps()
 function Home({ customers }) {
   const [showOrders, setShowOrders] = useState("");
+  const [orders, setOrders] = useState(false);
+  const [weather, setWeather] = useState("");
+  const [temp, setTemp] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const { handleSubmit, register, errors } = useForm();
 
-  const onSubmit = handleSubmit(async ({ email }) => {
+  const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
     const endpoint = "https://anant.stepzen.net/api/meetup/__graphql";
     const graphQLClient = new GraphQLClient(endpoint, {});
+    if (showOrders.delivery) {
+      setOrders(orders => !orders);
+    }
     if (errorMessage) setErrorMessage("");
     const CUSTOMERS = gql`
-      query customer($email: String!) {
-        customerByEmail(email: $email) {
-          name
-          email
-          street
-          postalCode
-          stateProvince
-          creditCard
-          orders {
-            createdOn
-            carrier
-            lineitemsCost
-            shippingCost
-            tax
-            trackingId
-            product {
-              name
-              image
-            }
-            delivery {
-              status
-              statusDate
-            }
-          }
+      query customer($carrier: String!, $trackingId: String!) {
+        delivery(carrier: $carrier, trackingId: $trackingId) {
+          status
+          statusDate
         }
       }
     `;
     try {
-      const data = await graphQLClient.request(CUSTOMERS, { email });
+      const data = await graphQLClient.request(CUSTOMERS, { carrier, trackingId });
       console.log(data);
       setShowOrders(data);
     } catch (error) {
@@ -65,9 +51,39 @@ function Home({ customers }) {
     }
   });
 
+  const weatherSubmit = async () => {
+    console.log(temp)
+    const endpoint = "https://anant.stepzen.net/api/meetup/__graphql";
+    const graphQLClient = new GraphQLClient(endpoint, {});
+    if (errorMessage) setErrorMessage("");
+    const WEATHER = gql`
+      query weather {
+        customerByEmail(email: "john.doe@example.com") {
+          weather {
+            temp
+          }
+        }
+      }
+    `;
+    try {
+      const data = await graphQLClient.request(WEATHER);
+      console.log(data);
+      setWeather(data);
+      setTemp(temp => !temp);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(error.message);
+    }
+  };
+
   console.log("static");
   console.log(customers);
   console.log("static");
+
+  console.log("weather");
+  console.log(weather);
+  console.log(temp);
+  console.log("weather");
 
   console.log("dynamic");
   if (showOrders.customerByEmail) {
@@ -84,42 +100,88 @@ function Home({ customers }) {
   // );
   // if (error) return <div>failed to load</div>
   // if (!data) return <div>loading...</div>
-
-  if (showOrders.customerByEmail) {
-    let orders = showOrders.customerByEmail.orders;
+  console.log("orders");
+  console.log(orders);
+  console.log("orders");
+  if (showOrders.delivery) {
+    let delivery = showOrders.delivery;
+    console.log(delivery)
     return (
-      <ul>
-        {orders.map((order) => (
-          <Orders
-            id={order.id}
-            createdOn={order.createdOn}
-            image={order.product.image}
-            name={order.product.name}
-          />
-        ))}
-      </ul>
+      <>
+        {temp ?
+        <h1 className="weather">{weather.customerByEmail.weather.temp}</h1>
+        :
+        <button onClick={weatherSubmit} className="weather">Weather</button>
+        }
+        <div className="user">
+            <h1>{customers.name}</h1>
+            <h4>{customers.street}</h4>
+            <h4>{customers.stateProvince}</h4>
+            <h4>{customers.postalCode}</h4>
+        </div>
+        <div className="container">
+            <h3>Delivery Status: {delivery.status}</h3>
+            <h3>Delivery Status Date: {delivery.statusDate}</h3>
+        </div>        
+    </>
     );
   }
   if (!showOrders.customerByEmail)
     return (
+      <>
+        {temp ?
+        <h1 className="weather">{weather.customerByEmail.weather.temp} &#x2109;</h1>
+        :
+        <button onClick={weatherSubmit} className="weather submit">Weather</button>
+        }
+        <div className="user">
+        <h1>{customers.name}</h1>
+        <h4>{customers.street}</h4>
+        <h4>{customers.stateProvince}</h4>
+        <h4>{customers.postalCode}</h4>
+        </div>
       <div className="container">
         <Head>
           <title>stepzen-next</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        Sorry {customers.name}, we could not retrieve your orders. Can you
-        provide us your email below?
+        Sorry {customers.name}, we could not retrieve your delivery status. Can you
+        provide us your carrier and trackerId below?
         <form onSubmit={onSubmit}>
           <div className="input-area">
-            <label>Email</label>
+          <label for="cars">Choose a carrier:</label>
+          <select name="carrier" ref={register}>
+            <option></option>
+            <option value="fedex">Fedex</option>
+            <option value="ups">UPS</option>
+          </select>
+          <label for="trackingId">Tracking ID:</label>
+          <select name="trackingId" ref={register}>
+            <option></option>
+            <option value="395644759071">395644759071</option>
+            <option value="1Z6A0W651201777672">1Z6A0W651201777672</option>
+          </select>
+            {/* <label>Carrier</label>
             <input
-              type="email"
-              name="email"
+              type="text"
+              name="carrier"
               className="mb2"
               // value={initialValues.to}
-              ref={register({ required: "Email is required" })}
-              placeholder="john@example.com"
-            />
+              ref={register({ required: "Carrier is required" })}
+              placeholder="fedex"
+            /> */}
+            {errors.task && <span role="alert">{errors.task.message}</span>}
+          {/* </div>
+          <div className="input-area">
+            <label>Tracking</label>
+            <input
+              type="text"
+              name="trackingId"
+              className="mb2"
+              // value={initialValues.to}
+              ref={register({ required: "Tracking is required" })}
+              placeholder="123134234232"
+            /> */}
             {errors.task && <span role="alert">{errors.task.message}</span>}
           </div>
           <div>
@@ -138,6 +200,7 @@ function Home({ customers }) {
           </a>
         </footer>
       </div>
+      </>
     );
 }
 
