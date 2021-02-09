@@ -1,22 +1,11 @@
 import Head from "next/head";
-import React, { useState, useEffect } from "react";
-import { GraphQLClient, gql, request } from "graphql-request";
+import React, { useState } from "react";
+import { GraphQLClient, request } from "graphql-request";
 import { useForm } from "react-hook-form";
-import useSWR from "swr";
-import Orders from "./orders";
+import {WEATHER} from "../queries/weather.queries"
+import {JOHN} from "../queries/john.queries"
+import {CUSTOMERS} from "../queries/customers.queries"
 
-//request query
-const JOHN = `query customer {  
-  customerByEmail(email: "john.doe@example.com") {
-		name 
-    email
-    street
-    postalCode
-    stateProvince
-  }
-}`;
-
-// posts will be populated at build time by getStaticProps()
 function Home({ customers }) {
   const [showOrders, setShowOrders] = useState("");
   const [orders, setOrders] = useState(false);
@@ -33,14 +22,6 @@ function Home({ customers }) {
       setOrders(orders => !orders);
     }
     if (errorMessage) setErrorMessage("");
-    const CUSTOMERS = gql`
-      query customer($carrier: String!, $trackingId: String!) {
-        delivery(carrier: $carrier, trackingId: $trackingId) {
-          status
-          statusDate
-        }
-      }
-    `;
     try {
       const data = await graphQLClient.request(CUSTOMERS, { carrier, trackingId });
       console.log(data);
@@ -56,15 +37,6 @@ function Home({ customers }) {
     const endpoint = "https://anant.stepzen.net/api/meetup/__graphql";
     const graphQLClient = new GraphQLClient(endpoint, {});
     if (errorMessage) setErrorMessage("");
-    const WEATHER = gql`
-      query weather {
-        customerByEmail(email: "john.doe@example.com") {
-          weather {
-            temp
-          }
-        }
-      }
-    `;
     try {
       const data = await graphQLClient.request(WEATHER);
       console.log(data);
@@ -91,15 +63,6 @@ function Home({ customers }) {
   }
   console.log("dynamic");
 
-  /* 
-    Could not get useSWR to sync with the graphQLClient in the onSubmit function
-  */
-
-  // const { data, error } = useSWR(CUSTOMERS, (query) =>
-  //   request(API_ENDPOINT, query)
-  // );
-  // if (error) return <div>failed to load</div>
-  // if (!data) return <div>loading...</div>
   console.log("orders");
   console.log(orders);
   console.log("orders");
@@ -161,27 +124,7 @@ function Home({ customers }) {
             <option value="395644759071">395644759071</option>
             <option value="1Z6A0W651201777672">1Z6A0W651201777672</option>
           </select>
-            {/* <label>Carrier</label>
-            <input
-              type="text"
-              name="carrier"
-              className="mb2"
-              // value={initialValues.to}
-              ref={register({ required: "Carrier is required" })}
-              placeholder="fedex"
-            /> */}
             {errors.task && <span role="alert">{errors.task.message}</span>}
-          {/* </div>
-          <div className="input-area">
-            <label>Tracking</label>
-            <input
-              type="text"
-              name="trackingId"
-              className="mb2"
-              // value={initialValues.to}
-              ref={register({ required: "Tracking is required" })}
-              placeholder="123134234232"
-            /> */}
             {errors.task && <span role="alert">{errors.task.message}</span>}
           </div>
           <div>
@@ -204,14 +147,7 @@ function Home({ customers }) {
     );
 }
 
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries. See the "Technical details" section.
 export async function getStaticProps() {
-  // const variables = { // Line 2
-  //   email: "john.doe@example.com",
-  //   };
-
   const res = await request(
     "https://anant.stepzen.net/api/meetup/__graphql",
     JOHN
