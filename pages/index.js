@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { useState } from "react";
 import { GraphQLClient, request } from "graphql-request";
 import { useForm } from "react-hook-form";
@@ -48,68 +47,60 @@ function Home({ customers }) {
     }
   };
 
-  console.log("static");
-  console.log(customers);
-  console.log("static");
-
-  console.log("weather");
-  console.log(weather);
-  console.log(temp);
-  console.log("weather");
-
-  console.log("dynamic");
   if (showOrders.customerByEmail) {
     console.log(showOrders.customerByEmail.name);
   }
-  console.log("dynamic");
 
-  console.log("orders");
-  console.log(orders);
-  console.log("orders");
   if (showOrders.delivery) {
     let delivery = showOrders.delivery;
     console.log(delivery)
     return (
-      <>
+      <div className="container">
+      <h1>Welcome to Jamstack SF!</h1>
         {temp ?
-        <h1 className="weather">{weather.customerByEmail.weather.temp}</h1>
+        <h2 className="weather">{weather.customerByEmail.weather.temp} &#x2109;</h2>
         :
         <button onClick={weatherSubmit} className="weather">Weather</button>
         }
         <div className="user">
-            <h1>{customers.name}</h1>
+            <h2>{customers.name}</h2>
             <h4>{customers.street}</h4>
             <h4>{customers.stateProvince}</h4>
             <h4>{customers.postalCode}</h4>
         </div>
-        <div className="container">
-            <h3>Delivery Status: {delivery.status}</h3>
-            <h3>Delivery Status Date: {delivery.statusDate}</h3>
-        </div>        
-    </>
+            <h3>Delivery Status:</h3>
+            <p>{delivery.status}</p>
+            <h3>Delivery Status Date:</h3>
+            <p>{delivery.statusDate}</p>
+        <footer>
+          <a
+            href="https://stepzen.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Powered by StepZen
+          </a>
+        </footer>
+    </div>
     );
   }
   if (!showOrders.customerByEmail)
     return (
-      <>
+      <div className="container">
+      <h1>Welcome to Jamstack SF!</h1>
         {temp ?
-        <h1 className="weather">{weather.customerByEmail.weather.temp} &#x2109;</h1>
+        <h2 className="weather">{weather.customerByEmail.weather.temp} &#x2109;</h2>
         :
         <button onClick={weatherSubmit} className="weather submit">Weather</button>
         }
         <div className="user">
-        <h1>{customers.name}</h1>
+        <h2>{customers.name}</h2>
         <h4>{customers.street}</h4>
         <h4>{customers.stateProvince}</h4>
         <h4>{customers.postalCode}</h4>
         </div>
-      <div className="container">
-        <Head>
-          <title>stepzen-next</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        Sorry {customers.name}, we could not retrieve your delivery status. Can you
-        provide us your carrier and trackerId below?
+        <p>Sorry {customers.name}, we could not retrieve your delivery status. Can you
+        provide us your carrier and trackerId below?</p>
         <form onSubmit={onSubmit}>
           <div className="input-area">
           <label for="cars">Choose a carrier:</label>
@@ -143,7 +134,6 @@ function Home({ customers }) {
           </a>
         </footer>
       </div>
-      </>
     );
 }
 
