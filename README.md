@@ -66,7 +66,6 @@ const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
   const graphQLClient = new GraphQLClient("https://anant.stepzen.net/api/meetup/__graphql", {});
   try {
     const data = await graphQLClient.request(CUSTOMERS, { carrier, trackingId });
-    console.log(data);
     setOrders(data);
   } catch (err) {
     console.error(err);
@@ -94,7 +93,6 @@ const weatherSubmit = async () => {
   const graphQLClient = new GraphQLClient("https://anant.stepzen.net/api/meetup/__graphql", {});
   try {
     const data = await graphQLClient.request(WEATHER);
-    console.log(data);
     setWeather(data);
     setTemp(temp => !temp);
   } catch (err) {
