@@ -33,6 +33,22 @@ export async function getStaticProps() {
 }
 ```
 
+### JOHN
+
+```javascript
+export const JOHN = gql`
+  query customer {  
+    customerByEmail(email: "john.doe@example.com") {
+      name 
+      email
+      street
+      postalCode
+      stateProvince
+    }
+  }
+`
+```
+
 ### Initialize State and Form Handlers
 
 ```javascript
@@ -58,6 +74,19 @@ const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
 });
 ```
 
+### CUSTOMERS
+
+```javascript
+export const CUSTOMERS = gql`
+  query customer($carrier: String!, $trackingId: String!) {
+    delivery(carrier: $carrier, trackingId: $trackingId) {
+      status
+      statusDate
+    }
+  }
+`
+```
+
 ### weatherSubmit
 
 ```javascript
@@ -72,6 +101,20 @@ const weatherSubmit = async () => {
     console.error(err);
   }
 };
+```
+
+### WEATHER
+
+```javascript
+export const WEATHER = gql`
+  query weather {
+    customerByEmail(email: "john.doe@example.com") {
+      weather {
+        temp
+      }
+    }
+  }
+`
 ```
 
 ### If order information is given, show delivery information
