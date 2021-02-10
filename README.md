@@ -135,7 +135,6 @@ const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
   const graphQLClient = new GraphQLClient(url, {});
   try {
     const data = await graphQLClient.request(CUSTOMERS, { carrier, trackingId });
-    console.log(data.delivery);
     setOrders(data);
   } catch (err) {
     console.error(err);
