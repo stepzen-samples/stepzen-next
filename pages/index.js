@@ -44,6 +44,7 @@ function Home({ customers }) {
         <Head>
           <title>stepzen-next</title>
           <link rel="icon" href="/favicon.ico" />
+          <meta name="description" content="StepZen demo with Next.js" />
         </Head>
         
         <h1>Welcome to Jamstack SF!</h1>
@@ -75,6 +76,7 @@ function Home({ customers }) {
         <Head>
           <title>stepzen-next</title>
           <link rel="icon" href="/favicon.ico" />
+          <meta name="description" content="StepZen demo with Next.js" />
         </Head>
 
         <h1>Welcome to Jamstack SF!</h1>
