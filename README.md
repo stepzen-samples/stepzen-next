@@ -67,15 +67,14 @@ If you export an `async` function called `getStaticProps` from a page, Next.js w
 
 ```javascript
 export async function getStaticProps() {
-  const res = await request(
-    "https://anant.stepzen.net/api/meetup/__graphql",
-    JOHN
-  );
+  const res = await request(url, JOHN);
   const data = res.customerByEmail;
   return {
     props: { customers: data },
   };
 }
+
+export default Home;
 ```
 
 ### JOHN
@@ -103,6 +102,7 @@ function Home({ customers }) {
   const [orders, setOrders] = useState("");
   const [weather, setWeather] = useState("");
   const [temp, setTemp] = useState(false);
+  
   const { handleSubmit, register } = useForm();
 ```
 
@@ -112,9 +112,10 @@ The `onSubmit` handler takes the results of the `data` object received by the `C
 
 ```javascript
 const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
-  const graphQLClient = new GraphQLClient("https://anant.stepzen.net/api/meetup/__graphql", {});
+  const graphQLClient = new GraphQLClient(url, {});
   try {
     const data = await graphQLClient.request(CUSTOMERS, { carrier, trackingId });
+    console.log(data.delivery);
     setOrders(data);
   } catch (err) {
     console.error(err);
@@ -145,7 +146,7 @@ The `weatherSubmit` handler does two things:
 
 ```javascript
 const weatherSubmit = async () => {
-  const graphQLClient = new GraphQLClient("https://anant.stepzen.net/api/meetup/__graphql", {});
+  const graphQLClient = new GraphQLClient(url, {});
   try {
     const data = await graphQLClient.request(WEATHER);
     setWeather(data);
