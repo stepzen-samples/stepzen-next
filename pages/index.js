@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useState } from "react";
 import { GraphQLClient, request } from "graphql-request";
 import { useForm } from "react-hook-form";
@@ -39,6 +40,11 @@ function Home({ customers }) {
     let delivery = orders.delivery;
     return (
       <div className="container">
+        <Head>
+          <title>stepzen-next</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        
         <h1>Welcome to Jamstack SF!</h1>
         {temp ? <p>{weather.customerByEmail.weather.temp} &#x2109;</p> :
         <button onClick={weatherSubmit} className="weather submit">
@@ -72,6 +78,11 @@ function Home({ customers }) {
   if (!orders.customerByEmail)
     return (
       <div className="container">
+        <Head>
+          <title>stepzen-next</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
         <h1>Welcome to Jamstack SF!</h1>
         {temp ? <p>{weather.customerByEmail.weather.temp} &#x2109;</p> :
         <button onClick={weatherSubmit} className="weather submit">
