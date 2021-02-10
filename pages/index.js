@@ -9,7 +9,7 @@ import { CUSTOMERS } from "../queries/customers.queries"
 
 import Footer from "../components/Footer"
 
-const url = "https://anant.stepzen.net/api/meetup/__graphql"
+const url = "https://anant.stepzen.net/api/meetup2/__graphql"
 
 function Home({ customers }) {
   const [orders, setOrders] = useState("");
