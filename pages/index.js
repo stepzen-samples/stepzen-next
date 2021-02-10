@@ -130,7 +130,7 @@ function Home({ customers }) {
 }
 
 export async function getStaticProps() {
-  const res = await request("https://anant.stepzen.net/api/meetup/__graphql", JOHN);
+  const res = await request("https://anant.stepzen.net/api/meetup2/__graphql", JOHN);
   const data = res.customerByEmail;
   return {
     props: { customers: data },
