@@ -18,7 +18,7 @@ function Home({ customers }) {
     const graphQLClient = new GraphQLClient("https://anant.stepzen.net/api/meetup/__graphql", {});
     try {
       const data = await graphQLClient.request(CUSTOMERS, { carrier, trackingId });
-      console.log(data);
+      console.log(data.delivery);
       setOrders(data);
     } catch (err) {
       console.error(err);
@@ -29,7 +29,7 @@ function Home({ customers }) {
     const graphQLClient = new GraphQLClient("https://anant.stepzen.net/api/meetup/__graphql", {});
     try {
       const data = await graphQLClient.request(WEATHER);
-      console.log(data);
+      console.log(data.customerByEmail);
       setWeather(data);
       setTemp(temp => !temp);
     } catch (err) {
@@ -54,8 +54,8 @@ function Home({ customers }) {
 
         <div className="user">
           <h2>{customers.name}</h2>
-          <h4>{customers.street}</h4>
-          <h4>{customers.stateProvince}</h4>
+          <div className="userCard">{customers.street}</div>
+          <div className="userCard">{customers.stateProvince}</div>
         </div>
 
         <div className="delivery">
@@ -85,8 +85,8 @@ function Home({ customers }) {
 
         <div className="user">
           <h2>{customers.name}</h2>
-          <h4>{customers.street}</h4>
-          <h4>{customers.stateProvince}</h4>
+          <div className="userCard">{customers.street}</div>
+          <div className="userCard">{customers.stateProvince}</div>
         </div>
 
         <div className="delivery">
@@ -115,7 +115,7 @@ function Home({ customers }) {
             </select>
           </div>
 
-          <button type="submit" className="submit">
+          <button type="submit" className="submit bottom">
             Submit
           </button>
         </form>

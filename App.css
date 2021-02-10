@@ -19,7 +19,7 @@
     padding: 10px;
 }
 
-.user h4 {
+.userCard {
     color: #333;
     margin: 0;
     padding: 10px;
@@ -36,7 +36,7 @@
 }
   
 .submit {
-    background: #fc4756;
+    background: #3c0409;
     border-color: #ffffff;
     border-radius: 20px;
     color: #ffffff;
@@ -71,6 +71,6 @@ footer {
     width: 50%
 }
 
-.temp {
-    font-size: 2rem;
+.bottom {
+    margin-top: 20px;
 }
