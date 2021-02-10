@@ -2,11 +2,15 @@ import Head from "next/head";
 import React, { useState } from "react";
 import { GraphQLClient, request } from "graphql-request";
 import { useForm } from "react-hook-form";
-import {WEATHER} from "../queries/weather.queries"
-import {JOHN} from "../queries/john.queries"
-import {CUSTOMERS} from "../queries/customers.queries"
+
+import { WEATHER } from "../queries/weather.queries"
+import { JOHN } from "../queries/john.queries"
+import { CUSTOMERS } from "../queries/customers.queries"
+
 import Footer from "../components/Footer"
+
 const url = "https://anant.stepzen.net/api/meetup/__graphql"
+
 function Home({ customers }) {
   const [orders, setOrders] = useState("");
   const [weather, setWeather] = useState("");
