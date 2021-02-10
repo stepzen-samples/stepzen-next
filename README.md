@@ -17,6 +17,8 @@ yarn dev
 Next.js uses the `MyApp` component to initialize pages.
 
 ```javascript
+// pages/_app.js
+
 import "../App.css"
 
 function MyApp({ Component, pageProps }) {
@@ -31,6 +33,8 @@ export default MyApp
 A custom `Document` is commonly used to augment your application's `<html>` and `<body>` tags, for example by adding a language tag for english: `lang="en"`
 
 ```javascript
+// pages/_document.js
+
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
@@ -60,6 +64,8 @@ export default MyDocument
 Next exposes a built-in component for appending elements to the `head` of the page:
 
 ```javascript
+// pages/index.js
+
 <Head>
   <title>stepzen-next</title>
   <link rel="icon" href="/favicon.ico" />
@@ -72,6 +78,8 @@ Next exposes a built-in component for appending elements to the `head` of the pa
 If you export an `async` function called `getStaticProps` from a page, Next.js will pre-render this page at build time using the props returned by `getStaticProps`.
 
 ```javascript
+// pages/index.js
+
 export async function getStaticProps() {
   const res = await request(url, JOHN);
   const data = res.customerByEmail;
@@ -88,6 +96,8 @@ export default Home;
 The `customer` query contains a `customerByEmail` field that accepts an `email` argument and returns the customer's information.
 
 ```javascript
+// queries/john.queries.js
+
 export const JOHN = gql`
   query customer {  
     customerByEmail(email: "john.doe@example.com") {
@@ -104,6 +114,8 @@ export const JOHN = gql`
 ### Initialize State and Form Handlers
 
 ```javascript
+// pages/index.js
+
 function Home({ customers }) {
   const [orders, setOrders] = useState("");
   const [weather, setWeather] = useState("");
@@ -117,6 +129,8 @@ function Home({ customers }) {
 The `onSubmit` handler takes the results of the `data` object received by the `CUSTOMERS` query and sets those results to the `orders` object with the `setOrders` hook.
 
 ```javascript
+// pages/index.js
+
 const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
   const graphQLClient = new GraphQLClient(url, {});
   try {
@@ -134,6 +148,8 @@ const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
 The `customer` query contains a `delivery` field that accepts `carrier` and `trackingId` arguments and returns the delivery information.
 
 ```javascript
+// queries/customers.queries.js
+
 export const CUSTOMERS = gql`
   query customer($carrier: String!, $trackingId: String!) {
     delivery(carrier: $carrier, trackingId: $trackingId) {
@@ -151,6 +167,8 @@ The `weatherSubmit` handler does two things:
 * `temp` is set to `true` with the `setTemp` hook
 
 ```javascript
+// pages/index.js
+
 const weatherSubmit = async () => {
   const graphQLClient = new GraphQLClient(url, {});
   try {
@@ -168,6 +186,8 @@ const weatherSubmit = async () => {
 The `weather` query contains a `customerByEmail` field that accepts an `email` argument and returns the customer's current temperature.
 
 ```javascript
+// queries/weather.queries.js
+
 export const WEATHER = gql`
   query weather {
     customerByEmail(email: "john.doe@example.com") {
@@ -182,6 +202,8 @@ export const WEATHER = gql`
 ### If order information is given, show delivery information
 
 ```javascript
+// pages/index.js
+
 if (orders.delivery) {
   let delivery = orders.delivery;
   return (
