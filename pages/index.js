@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import {WEATHER} from "../queries/weather.queries"
 import {JOHN} from "../queries/john.queries"
 import {CUSTOMERS} from "../queries/customers.queries"
-import Footer from "../components/footer"
+import Footer from "../components/Footer"
 
 function Home({ customers }) {
   const [orders, setOrders] = useState("");
