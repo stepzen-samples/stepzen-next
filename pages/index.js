@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import {WEATHER} from "../queries/weather.queries"
 import {JOHN} from "../queries/john.queries"
 import {CUSTOMERS} from "../queries/customers.queries"
+import Footer from "../components/footer"
 
 function Home({ customers }) {
   const [orders, setOrders] = useState("");
@@ -47,7 +48,7 @@ function Home({ customers }) {
         
         <h1>Welcome to Jamstack SF!</h1>
         {temp ? <p>{weather.customerByEmail.weather.temp} &#x2109;</p> :
-        <button onClick={weatherSubmit} className="weather submit">
+        <button onClick={weatherSubmit} className="submit">
           Weather
         </button>}
 
@@ -56,6 +57,7 @@ function Home({ customers }) {
           <h4>{customers.street}</h4>
           <h4>{customers.stateProvince}</h4>
         </div>
+
         <div className="delivery">
           <h3>Delivery Status:</h3>
           <p>{delivery.status}</p>
@@ -63,15 +65,7 @@ function Home({ customers }) {
           <p>{delivery.statusDate}</p>
         </div>
 
-        <footer>
-          <a
-            href="https://stepzen.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by StepZen
-          </a>
-        </footer>
+        <Footer />
       </div>
     );
   }
@@ -85,7 +79,7 @@ function Home({ customers }) {
 
         <h1>Welcome to Jamstack SF!</h1>
         {temp ? <p>{weather.customerByEmail.weather.temp} &#x2109;</p> :
-        <button onClick={weatherSubmit} className="weather submit">
+        <button onClick={weatherSubmit} className="submit">
           Weather
         </button>}
 
@@ -95,12 +89,14 @@ function Home({ customers }) {
           <h4>{customers.stateProvince}</h4>
         </div>
 
-        <h2>Sorry {customers.name}, we could not retrieve your delivery status.</h2>
-        <h3>Can you provide us your carrier and trackerId below?</h3>
+        <div className="delivery">
+          <b>Sorry {customers.name}, couldn't retrieve delivery status.</b>
+          <p>Can you provide your carrier and trackerId?</p>
+        </div>
 
         <form onSubmit={onSubmit}>
           <div>
-            <label htmlFor="cars">
+            <label htmlFor="carrier">
               Choose a carrier:
             </label>
             <select name="carrier" ref={register}>
@@ -124,15 +120,7 @@ function Home({ customers }) {
           </button>
         </form>
 
-        <footer>
-          <a
-            href="https://stepzen.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by StepZen
-          </a>
-        </footer>
+        <Footer />
       </div>
     );
 }
