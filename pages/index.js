@@ -9,6 +9,8 @@ import { CUSTOMERS } from "../queries/customers.queries"
 
 import Footer from "../components/Footer"
 
+const url = "https://demo.stepzen.net/api/meetup/__graphql"
+
 function Home({ customers }) {
   const [orders, setOrders] = useState("");
   const [weather, setWeather] = useState("");
@@ -17,7 +19,7 @@ function Home({ customers }) {
   const { handleSubmit, register } = useForm();
 
   const onSubmit = handleSubmit(async ({ carrier, trackingId }) => {
-    const graphQLClient = new GraphQLClient("https://anant.stepzen.net/api/meetup2/__graphql", {});
+    const graphQLClient = new GraphQLClient(url, {});
     try {
       const data = await graphQLClient.request(CUSTOMERS, { carrier, trackingId });
       console.log(data.delivery);
@@ -28,7 +30,7 @@ function Home({ customers }) {
   });
 
   const weatherSubmit = async () => {
-    const graphQLClient = new GraphQLClient("https://anant.stepzen.net/api/meetup2/__graphql", {});
+    const graphQLClient = new GraphQLClient(url, {});
     try {
       const data = await graphQLClient.request(WEATHER);
       console.log(data.customerByEmail);
@@ -130,7 +132,7 @@ function Home({ customers }) {
 }
 
 export async function getStaticProps() {
-  const res = await request("https://anant.stepzen.net/api/meetup2/__graphql", JOHN);
+  const res = await request(url, JOHN);
   const data = res.customerByEmail;
   return {
     props: { customers: data },
