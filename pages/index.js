@@ -96,12 +96,13 @@ function Home({ customers }) {
         </div>
 
         <div className="delivery">
-          <p>Hello {customers.name}, which package would you like the delivery status of?</p>
+          <p style={{marginBottom: '2px'}}>Hello {customers.name},</p>
+          <p style={{margin: '2px 0 2em 0'}}>which package would you like the delivery status of?</p>
         </div>
 
         <form onSubmit={onSubmit}>
           <div>
-            <label htmlFor="carrier">
+            <label htmlFor="carrier" style={{marginRight: '1em'}}>
               Choose a carrier:
             </label>
             <select name="carrier" ref={register}>
@@ -109,9 +110,9 @@ function Home({ customers }) {
               <option value="fedex">Fedex</option>
             </select>
           </div>
-
+          <br/>
           <div>
-            <label htmlFor="trackingId">
+            <label htmlFor="trackingId" style={{marginRight: '1em'}}>
               Tracking ID:
             </label>
             <select name="trackingId" ref={register}>
@@ -119,7 +120,7 @@ function Home({ customers }) {
               <option value="395644759071">395644759071</option>
             </select>
           </div>
-
+          <br/>
           <button type="submit" className="submit bottom">
             Submit
           </button>
