@@ -96,8 +96,7 @@ function Home({ customers }) {
         </div>
 
         <div className="delivery">
-          <b>Sorry {customers.name}, couldn't retrieve delivery status.</b>
-          <p>Can you provide your carrier and trackerId?</p>
+          <p>Hello {customers.name}, which package would you like the delivery status of?</p>
         </div>
 
         <form onSubmit={onSubmit}>
